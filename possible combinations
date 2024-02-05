@@ -1,0 +1,66 @@
+#include<stdio.h>
+int m=3,a[20][20],i,j,n,x[10],g[20][20];
+void nextvalue(int k)
+{
+    int j;
+    while(1)
+    {
+        x[k]=(x[k]+1)%(m+1);
+        if(x[k]==0)
+        {
+            return;
+        }
+        for(j=1;j<=n;j++)
+        {
+            if(a[k][j]==1&&x[k]==x[j])
+                break;
+        }
+        if(j==(n+1))
+        {
+        return;
+        }
+    }
+}
+void mcoloring(int k)
+{
+    while(1)
+    {
+        nextvalue(k);
+        if(x[k]==0)
+        {
+            return;
+        }
+        if(k==n)
+        {
+            for(i=1;i<=n;i++)
+            {
+                printf("%d ", x[i]);
+            }
+            printf("\n");
+        }
+        else
+            mcoloring(k+1);
+    }
+}
+int main()
+{
+    printf("Enter no. of vertices:");
+    scanf("%d",&n);
+    printf("\nEnter the adjacency matrix:\n");
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+            scanf("%d",&a[i][j]);
+    printf(" enter the no. of colours = ");
+    scanf("%d",&m);
+    printf("\n the adjacency matrix is: \n ");
+    for(i=1;i<=n;i++)
+    {
+        printf("\n");
+        for(j=1;j<=n;j++)
+            printf("  %d",a[i][j]);
+        printf("\n\n");
+    }
+    printf("\n the possible combination of colours are : - \n");
+    printf(" 1-> RED , 2-> BLUE , 3-> GREEN \n\n");
+    mcoloring(1);
+}
