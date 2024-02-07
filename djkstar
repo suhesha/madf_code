@@ -1,0 +1,113 @@
+#include<stdio.h>
+int Mat[10][10],dis[10],Visited[10],path[10];
+char Vertex[10];
+int size;
+
+int minimum()//find and returns the min value that has not been visited
+{
+    int v,min=10000,pos;
+    for(v=0;v<size;v++)
+    {
+        if (Visited[v] == 0 && dis[v] <= min) //if the vertex is not visited and has minimum distance
+        {
+            min = dis[v];
+            pos = v;
+        }
+    }
+    return pos;
+}
+
+void display(int s)
+{
+    int i ,j;
+    printf("\nPaths to Vertices \n");
+    for(j=0;j<size;j++)
+    {
+        printf(" %c",Vertex[j]);
+        i=j;
+        while(path[i] != s)
+        {
+            i = path[i];
+            printf(" - %c ",Vertex[i]);
+        }
+        printf(" - %c     :Distance = %d",Vertex[s],dis[j]);
+        printf("\n");
+    }
+}
+
+void djstar(int s)
+{
+    int i=0,j=0,k=0,min;
+    // sets distance to infinite or 1000000
+    while(j < size)
+    {
+        dis[j] = 10000;
+        path[j] = j;
+        j++;
+    }
+
+    dis[s] = 0;
+
+    for(j=0;j<size-1;j++)
+    {
+        int x = minimum();
+        Visited[x] = 1;
+        for(k=0 ;k<size; k++)
+        {
+            if(Visited[k]==0 && Mat[x][k]!=0 && dis[x] != 10000 && dis[x] + Mat[x][k] < dis[k])//check every adjacent vertex to min vertex
+            {
+                dis[k] = dis[x] + Mat[x][k];
+                path[k] = x;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i,j,source;
+    printf("Enter the number of vertex in the graph \n");
+    scanf("%d",&size);
+
+    printf("Enter the vertex \n");
+    for(i=0;i<size;i++)
+    {
+        scanf(" %c", &Vertex[i]);
+        Visited[i] = 0;
+    }
+    i=0;
+    printf("Enter the adjacency Matrix \n");
+    for(i=0;i<size;i++)
+    {
+        for(j=0;j<size;j++)
+        {
+            scanf(" %d",&Mat[i][j]);
+        }
+    }
+
+    printf("The adjacency Matrix \n");
+    for(i=0;i<size;i++)
+    {
+        printf(" %c ",Vertex[i]);
+    }
+    printf("\n");
+    for(i=0;i<size;i++)
+    {
+        for(j=0;j<size;j++)
+        {
+            printf(" %d ",Mat[i][j]);
+        }
+        printf("\n");
+    }
+    printf("Enter source vertex from list \n");
+    for(i=0;i<size;i++)
+    {
+        printf(" %c ", Vertex[i]);
+    }
+    printf("\nEnter position of Source vertex\n");
+    scanf("%d",&source);
+    djstar(source);
+    display(source);
+
+    return 0;
+}
