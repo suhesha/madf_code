@@ -1,0 +1,57 @@
+#include<stdio.h>
+int i,j,len1,len2,LCS[20][20];
+
+int max(int a, int b) {
+   if(a>b){
+      return a;
+   } else {
+      return b;
+   }
+}
+
+
+void longestCommonSubsequece(char *str1, char *str2,int  len1, int len2)
+{
+//create a matrix LCS of order (len1+1)*(len2+1) to tabulate values
+//initializing
+for( i=0;i<=len1;i++)
+LCS[i][0]=0; //empty str2
+for( j=0;j<=len2;j++)
+LCS[0][j]=0; //empty str1
+//now, start filling the matrix row wise
+for( i=1;i<=len1;i++)
+{
+for( j=1;j<=len2;j++)
+{
+//if current character of both strings match
+if((str1[i-1])==(str2[j-1]))
+{
+LCS[i][j]=1+LCS[i-1][j-1];
+
+}
+//mismatch
+else
+{
+LCS[i][j]=max(LCS[i-1][j],LCS[i][j-1]);
+}
+
+}
+
+}
+printf("\n the longest sequence length is %d ",LCS[len1][len2]);
+//return the final value in LCS[len1][len2];
+}
+
+
+int main()
+{
+    char str1[20],str2[20];
+    printf("\n enter the string 1 ");
+    scanf("%s",&str1);
+    len1=strlen(str1);
+    printf("\n enter the string 2 ");
+    scanf("%s",&str2);
+    len2=strlen(str2);
+    printf("\n the 2 entered strings are ' %s ' and ' %s ' ",str1,str2);
+    longestCommonSubsequece(str1, str2, len1, len2);
+}
