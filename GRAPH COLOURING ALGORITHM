@@ -1,0 +1,66 @@
+GRAPH COLOURING ALGORITHM
+#include<stdio.h>
+int m=3;
+int c;
+int main()
+{
+    int a[20][20],i,j,n;
+    printf("Enter no. of vertices:");
+    scanf("%d",&n);
+    printf("\nEnter the adjacency matrix:\n");
+    for(i=0;i<n;i++)
+        for(j=0;j<n;j++)
+            scanf("%d",&a[i][j]);
+    printf("/n the adjacency matrix is: /n ");
+    for(i=0;i<n;i++)
+    {
+        printf("\n");
+        for(j=0;j<n;j++)
+            printf("  %d",a[i][j]);
+    }
+    mcoloring(n,1);
+}
+void mcoloring(int n,int k)
+{
+int i,x[20];
+ while(1)
+ {
+  nextvalue(k);
+  if(x[k]==0)
+  {
+   return;
+  }
+ if(k==n)
+ {
+  c=1;
+  for(i=1;i<=n;i++)
+  {
+   printf("%d ", x[i]);
+  }
+  printf("\n");
+ }
+ else
+ mcoloring(k+1);
+ }
+}
+void nextvalue(int k)
+{
+ int j;
+ while(1)
+ {
+  x[k]=(x[k]+1)%(m+1);
+  if(x[k]==0)
+  {
+   return;
+  }
+  for(j=1;j<=n;j++)
+  {
+   if(g[k][j]==1&&x[k]==x[j])
+    break;
+  }
+  if(j==(n+1))
+  {
+   return;
+  }
+ }
+}
